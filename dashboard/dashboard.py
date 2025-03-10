@@ -8,11 +8,11 @@ st.set_page_config(page_title="E-Commerce Dashboard", layout="wide")
 # Fungsi untuk memuat dataset
 @st.cache_data
 def load_data():
-    customers = pd.read_csv("customers_dataset.csv")
-    orders = pd.read_csv("orders_dataset.csv")
-    order_items = pd.read_csv("order_items_dataset.csv")
-    products = pd.read_csv("products_dataset.csv")
-    product_category = pd.read_csv("product_category_name_translation.csv")
+    customers = pd.read_csv("data/customers_dataset.csv")
+    orders = pd.read_csv("data/orders_dataset.csv")
+    order_items = pd.read_csv("data/order_items_dataset.csv")
+    products = pd.read_csv("data/products_dataset.csv")
+    product_category = pd.read_csv("data/product_category_name_translation.csv")
 
     # Gabungkan product_category dengan products
     products = products.merge(product_category, on="product_category_name", how="left")
