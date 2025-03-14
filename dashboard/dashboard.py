@@ -19,18 +19,28 @@ def load_data():
 customers, orders, order_items, products = load_data()
 
 orders['order_purchase_timestamp'] = pd.to_datetime(orders['order_purchase_timestamp'])
-
 orders['order_month'] = orders['order_purchase_timestamp'].dt.to_period('M').astype(str)
 
 st.sidebar.header("Filter Data")
-selected_year = st.sidebar.selectbox("Pilih Tahun", sorted(orders['order_purchase_timestamp'].dt.year.unique(), reverse=True))
+year_options = ["All Years"] + sorted(orders['order_purchase_timestamp'].dt.year.unique(), reverse=True)
+selected_year = st.sidebar.selectbox("Pilih Tahun", year_options)
 
-filtered_orders = orders[orders['order_purchase_timestamp'].dt.year == selected_year]
+if selected_year == "All Years":
+    filtered_orders = orders
+else:
+    filtered_orders = orders[orders['order_purchase_timestamp'].dt.year == selected_year]
 
 st.subheader("📈 Pola Pembelian Pelanggan")
 monthly_orders = filtered_orders.groupby('order_month').size().reset_index(name="Jumlah Pesanan")
 
-fig1 = px.line(monthly_orders, x="order_month", y="Jumlah Pesanan", markers=True, title="Tren Jumlah Pesanan per Bulan")
+fig1 = px.line(
+    monthly_orders, 
+    x="order_month", 
+    y="Jumlah Pesanan", 
+    markers=True, 
+    title="Tren Jumlah Pesanan per Bulan",
+    labels={"order_month": "Bulan", "Jumlah Pesanan": "Jumlah Pesanan"}
+)
 st.plotly_chart(fig1, use_container_width=True)
 
 st.subheader("🛒 Kategori Produk Terlaris")
