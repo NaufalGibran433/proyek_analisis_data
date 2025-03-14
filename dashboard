@@ -1,0 +1,5 @@
+mkdir dashboard
+touch dashboard/readme.md
+git add dashboard/readme.md
+git commit -m "Menambahkan folder dashboard dengan file README"
+git push origin main
